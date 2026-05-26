@@ -226,58 +226,33 @@ function renderCRM() {
     
     MOCK_CLIENTS.forEach(c => {
         const row = document.createElement('div');
-        row.className = 'glass-panel';
-        row.style.padding = '1.5rem 2rem';
-        row.style.borderRadius = '12px';
-        row.style.display = 'flex';
-        row.style.justifyContent = 'space-between';
-        row.style.alignItems = 'center';
-        row.style.gap = '2rem';
-        row.style.border = '1px solid rgba(255, 255, 255, 0.08)';
-        row.style.background = 'linear-gradient(90deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.4) 100%)';
-        row.style.flexWrap = 'wrap'; 
-        row.style.transition = 'all 0.2s ease';
-        
-        row.onmouseover = () => { 
-            row.style.transform = 'translateY(-2px)'; 
-            row.style.background = 'linear-gradient(90deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%)';
-            row.style.borderColor = 'rgba(59, 130, 246, 0.3)';
-            row.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
-        };
-        row.onmouseout = () => { 
-            row.style.transform = 'none'; 
-            row.style.background = 'linear-gradient(90deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.4) 100%)';
-            row.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-            row.style.boxShadow = 'none';
-        };
+        row.className = 'glass-panel crm-row';
         
         row.innerHTML = `
             <!-- Col 1: Nombre -->
-            <div style="flex: 2; min-width: 250px; display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 48px; height: 48px; border-radius: 10px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: #60a5fa; font-size: 1.4rem; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);">
-                    🏢
-                </div>
-                <div>
-                    <h3 style="margin: 0; font-size: 1.15rem; color: #f8fafc; font-weight: 600; letter-spacing: 0.3px;">${c.name}</h3>
-                    <span style="font-size: 0.75rem; color: #64748b; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Cod. 100${c.id}</span>
+            <div class="crm-col crm-col-main">
+                <div class="crm-icon-box">🏢</div>
+                <div class="crm-info">
+                    <h3>${c.name}</h3>
+                    <span>Cod. 100${c.id}</span>
                 </div>
             </div>
             
             <!-- Col 2: Teléfono -->
-            <div style="flex: 1.5; min-width: 180px; border-left: 1px solid rgba(255,255,255,0.05); padding-left: 1.5rem;">
-                <span style="display: block; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; font-weight: 600;">Teléfono</span>
-                <span style="color: #cbd5e1; font-weight: 500; font-size: 0.95rem;">${c.phone}</span>
+            <div class="crm-col crm-col-divider">
+                <span class="crm-label">Teléfono</span>
+                <span class="crm-value">${c.phone}</span>
             </div>
 
             <!-- Col 3: Dirección -->
-            <div style="flex: 2; min-width: 200px; border-left: 1px solid rgba(255,255,255,0.05); padding-left: 1.5rem;">
-                <span style="display: block; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; font-weight: 600;">Ubicación</span>
-                <span style="color: #cbd5e1; font-weight: 500; font-size: 0.95rem;">${c.address}</span>
+            <div class="crm-col crm-col-divider">
+                <span class="crm-label">Ubicación</span>
+                <span class="crm-value">${c.address}</span>
             </div>
 
             <!-- Col 4: Acción -->
-            <div style="flex: 0.5; min-width: 120px; text-align: right;">
-                <button class="btn-outline" style="padding: 0.5rem 1.2rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; border-color: rgba(255,255,255,0.15); color: #e2e8f0; background: rgba(255,255,255,0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.15)';" onclick="showDemoAlert('Ver Expediente de ${c.name}')">Abrir ↗</button>
+            <div class="crm-col crm-col-action">
+                <button class="btn-outline crm-btn" onclick="showDemoAlert('Ver Expediente de ${c.name}')">Abrir ↗</button>
             </div>
         `;
         grid.appendChild(row);

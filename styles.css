@@ -485,3 +485,164 @@ body {
     border-color: var(--primary);
     transform: translateX(10px);
 }
+
+/* CRM Rows Styling */
+.crm-row {
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.4) 100%);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.crm-row:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(90deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.crm-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.crm-col-main {
+    flex: 2;
+    min-width: 250px;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.crm-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
+    font-size: 1.4rem;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+
+.crm-info h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #f8fafc;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.crm-info span {
+    font-size: 0.75rem;
+    color: #64748b;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.crm-col-divider {
+    flex: 1.5;
+    min-width: 180px;
+    border-left: 1px solid rgba(255,255,255,0.05);
+    padding-left: 1.5rem;
+}
+
+.crm-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.crm-value {
+    color: #cbd5e1;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.crm-col-action {
+    flex: 0.5;
+    min-width: 100px;
+    text-align: right;
+    justify-content: center;
+}
+
+.crm-btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-color: rgba(255,255,255,0.15);
+    color: #e2e8f0;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.2s;
+    width: fit-content;
+    margin-left: auto;
+}
+
+.crm-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+}
+
+/* Responsive Media Query */
+@media (max-width: 768px) {
+    .glass-header {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .admin-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .crm-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+    
+    .crm-col-divider {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-left: 0;
+        padding-top: 1rem;
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .crm-col-main {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .crm-col-action {
+        width: 100%;
+        min-width: 100%;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 1rem;
+    }
+    
+    .crm-btn {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+}
