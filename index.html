@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2B Multicatalogo Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Views will be injected here -->
+    </div>
+    
+    <!-- Global Modal -->
+    <div id="demo-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <h2 id="modal-title">Atención</h2>
+            <p id="modal-msg">Esta función estará disponible en la versión completa.</p>
+            <button class="btn-primary mt-4" onclick="closeDemoAlert()">Entendido</button>
+        </div>
+    </div>
+    
+    <!-- Admin Sidebar (Left) -->
+    <div id="admin-sidebar" class="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <h2>Gestión</h2>
+            <button class="btn-icon" onclick="toggleAdmin()">×</button>
+        </div>
+        <div class="admin-sidebar-content">
+            <button class="btn-sidebar" onclick="showDemoAlert('Agregar Nuevos Items'); toggleAdmin()">➕ Nuevos Items</button>
+            <button class="btn-sidebar" onclick="showDemoAlert('Modificar Items'); toggleAdmin()">✏️ Modificar Items</button>
+            <button class="btn-sidebar" onclick="showDemoAlert('Ver Stock'); toggleAdmin()">📦 Ver Stock</button>
+            <button class="btn-sidebar" onclick="showDemoAlert('Reportes'); toggleAdmin()">📊 Reportes</button>
+            <button class="btn-sidebar" onclick="showDemoAlert('Facturas'); toggleAdmin()">🧾 Facturas</button>
+        </div>
+    </div>
+    
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Carrito</h2>
+            <button id="close-cart" class="btn-icon">×</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cart-total-price">$0.00</span></div>
+            <button id="checkout-btn" class="btn-primary">Confirmar Pedido</button>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="tpl-home">
+        <div class="view home-view">
+            <header class="admin-header glass-header">
+                <div class="admin-brand">⚙️ Panel Admin</div>
+                <div class="admin-actions">
+                    <button class="btn-outline" onclick="navigate('crm')" style="border-color: var(--primary);">👥 Clientes (CRM)</button>
+                    <button class="btn-outline" onclick="showDemoAlert('Nueva Empresa')">+ Nueva Empresa</button>
+                    <button class="btn-outline" onclick="showDemoAlert('Pedidos')">📦 Pedidos</button>
+                    <button class="btn-outline" onclick="showDemoAlert('Ventas')">📈 Ventas</button>
+                </div>
+            </header>
+            <h1 class="glow-text" style="margin-top: 2rem;">Selecciona la Empresa</h1>
+            <div class="tenant-grid">
+                <div class="tenant-card" data-tenant="accesorios">
+                    <div class="tenant-logo bg-gradient-1">Ac</div>
+                    <h3>Accesorios</h3>
+                </div>
+                <div class="tenant-card" data-tenant="artesania">
+                    <div class="tenant-logo bg-gradient-2">Ar</div>
+                    <h3>Artesanía</h3>
+                </div>
+                <div class="tenant-card" data-tenant="ropa">
+                    <div class="tenant-logo bg-gradient-3">Ro</div>
+                    <h3>Ropa</h3>
+                </div>
+                <div class="tenant-card" data-tenant="tecnologia">
+                    <div class="tenant-logo bg-gradient-4">Te</div>
+                    <h3>Tecnología</h3>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-catalog">
+        <div class="view catalog-view">
+            <header class="glass-header">
+                <button class="btn-back" onclick="navigate('home')">← Volver</button>
+                <h1 id="tenant-title">Catálogo</h1>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button class="btn-cart" onclick="toggleAdmin()" style="font-size: 1.5rem;" title="Abrir Gestión">📦</button>
+                    <button id="open-cart" class="btn-cart">
+                        🛒 <span id="cart-badge" class="badge">0</span>
+                    </button>
+                </div>
+            </header>
+
+            <div id="product-grid" class="product-grid">
+                <!-- Products injected via JS -->
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-success">
+        <div class="view success-view">
+            <div class="success-card glass-panel">
+                <div class="success-icon">✓</div>
+                <h2>Pedido Confirmado</h2>
+                <p>Pedido enviado a la matriz. Pendiente de aprobación y despacho.</p>
+                <button class="btn-primary mt-4" onclick="navigate('home')">Volver al Inicio</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-crm">
+        <div class="view crm-view">
+            <header class="glass-header" style="border-radius: 16px; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button class="btn-back" onclick="navigate('home')">← Volver</button>
+                    <h1 style="margin: 0;">CRM</h1>
+                </div>
+                <div class="crm-header-actions" style="display: flex; gap: 1rem; align-items: center;">
+                    <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 0.6rem 1rem; display: flex; align-items: center; border: 1px solid var(--glass-border);">
+                        🔍 <input type="text" placeholder="Buscar cliente, empresa o teléfono..." style="background: transparent; border: none; color: white; margin-left: 0.5rem; outline: none; width: 250px; font-family: 'Outfit', sans-serif;">
+                    </div>
+                    <button class="btn-primary" style="padding: 0.6rem 1.5rem; width: auto; box-shadow: none;" onclick="showDemoAlert('Añadir Cliente')">+ Nuevo Cliente</button>
+                </div>
+            </header>
+
+            <!-- KPIs -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="glass-panel" style="padding: 1.5rem; text-align: center; border-radius: 16px;">
+                    <h3 style="opacity: 0.7; font-size: 1rem; margin-bottom: 0.5rem;">Total Clientes</h3>
+                    <p style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">124</p>
+                </div>
+                <div class="glass-panel" style="padding: 1.5rem; text-align: center; border-radius: 16px;">
+                    <h3 style="opacity: 0.7; font-size: 1rem; margin-bottom: 0.5rem;">Clientes Activos</h3>
+                    <p style="font-size: 2.5rem; font-weight: 800; color: #10b981;">112</p>
+                </div>
+                <div class="glass-panel" style="padding: 1.5rem; text-align: center; border-radius: 16px;">
+                    <h3 style="opacity: 0.7; font-size: 1rem; margin-bottom: 0.5rem;">Nuevos (Este Mes)</h3>
+                    <p style="font-size: 2.5rem; font-weight: 800; color: #8b5cf6;">+15</p>
+                </div>
+                <div class="glass-panel" style="padding: 1.5rem; text-align: center; border-radius: 16px;">
+                    <h3 style="opacity: 0.7; font-size: 1rem; margin-bottom: 0.5rem;">Ingresos LTV</h3>
+                    <p style="font-size: 2.5rem; font-weight: 800; color: #f59e0b;">$45.2K</p>
+                </div>
+            </div>
+
+            <!-- Toolbar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 0.5rem;">
+                <h2 style="font-size: 1.5rem;">Directorio</h2>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn-outline" style="padding: 0.5rem 1rem; border-radius: 8px;" onclick="showDemoAlert('Filtros Avanzados')">⚙️ Filtros</button>
+                    <button class="btn-outline" style="padding: 0.5rem 1rem; border-radius: 8px; color: #10b981; border-color: rgba(16, 185, 129, 0.5);" onclick="showDemoAlert('Exportar a Excel')">📊 Exportar Excel</button>
+                    <button class="btn-outline" style="padding: 0.5rem 1rem; border-radius: 8px; color: #ef4444; border-color: rgba(239, 68, 68, 0.5);" onclick="showDemoAlert('Exportar a PDF')">📄 Exportar PDF</button>
+                </div>
+            </div>
+
+            <div style="padding-bottom: 1rem;">
+                <div id="crm-grid" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Clients injected via JS -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>
